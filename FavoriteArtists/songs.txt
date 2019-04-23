@@ -1,0 +1,7 @@
+name;	artistId;	albumId;	duration;	id
+Animal;	1;	0;	3.08;	1
+
+Cold;	1;	3;	3.08;	1
+
+Cold;	1;	3;	3.08;	1
+

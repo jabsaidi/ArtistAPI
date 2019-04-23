@@ -1,0 +1,14 @@
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\bin\Debug\netcoreapp2.2\FavoriteArtists.deps.json
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\bin\Debug\netcoreapp2.2\FavoriteArtists.runtimeconfig.json
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\bin\Debug\netcoreapp2.2\FavoriteArtists.runtimeconfig.dev.json
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\bin\Debug\netcoreapp2.2\FavoriteArtists.dll
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\bin\Debug\netcoreapp2.2\FavoriteArtists.pdb
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.csprojAssemblyReference.cache
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.csproj.CoreCompileInputs.cache
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.RazorAssemblyInfo.cache
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.RazorAssemblyInfo.cs
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.AssemblyInfoInputs.cache
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.AssemblyInfo.cs
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.RazorTargetAssemblyInfo.cache
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.dll
+C:\Users\jabir.saidi\source\repos\FavoriteArtists\FavoriteArtists\obj\Debug\netcoreapp2.2\FavoriteArtists.pdb
