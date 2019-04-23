@@ -11,20 +11,7 @@ namespace FavoriteArtists.DLA.Repos
         public PlaylistRepo()
         {
             if (_playlists.Count == 0)
-                InitData();
-        }
-
-        private void InitData()
-        {
-            var song1 = new Song() { Id = 18, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Mamacita" };
-            var song2 = new Song() { Id = 19, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Uptown" };
-            var song3 = new Song() { Id = 20, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Stronger" };
-            var song4 = new Song() { Id = 21, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Atlantis" };
-            var song5 = new Song() { Id = 22, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Animal" };
-
-            var songs = new List<Song>() { song1, song2, song3, song4, song5};
-
-            _playlists.Add(new Playlist() {Id = 1, Name = "Rage", Songs = songs });
+                DataGenerator.GeneratePlaylist();
         }
 
         public List<Playlist> GetAllPlaylists()

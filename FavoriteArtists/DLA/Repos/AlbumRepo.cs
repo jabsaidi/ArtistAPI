@@ -11,19 +11,12 @@ namespace FavoriteArtists.DLA.Repos
         public AlbumRepo()
         {
             if (_albums.Count == 0)
-                InitData();
-
-        }
-
-        private void InitData()
-        {
-            _albums.Add(new Album() { Id = 1, ArtistId = 1, Name = "Astroworld"});
+                DataGenerator.GenerateAlbum();
         }
 
         public List<Album> GetAlbumsByArtistId(int id)
         {
             var albums = new List<Album>();
-
             foreach(var album in _albums)
             {
                 if (album.ArtistId == id)

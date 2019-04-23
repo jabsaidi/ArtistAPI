@@ -11,29 +11,10 @@ namespace FavoriteArtists.DLA.Repos
         public SongRepo()
         {
             if (_songs.Count == 0)
-                InitData();
+                DataGenerator.GenerateSongs();
         }
 
-        public void InitData()
-        {
-            _songs.Add(new Song() { Id = 1, Name = "Stargazing", ArtistId = 1, Duration = 4.31, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 2, Name = "Carousel", ArtistId = 1, Duration = 3, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 3, Name = "Sicko Mode", ArtistId = 1, Duration = 5.13, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 4, Name = "R.I.P Screw", ArtistId = 1, Duration = 3.06, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 5, Name = "Stop Trying To Be God", ArtistId = 1, Duration = 5.38, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 6, Name = "No Bystanders", ArtistId = 1, Duration = 3.38, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 7, Name = "Skeletons", ArtistId = 1, Duration = 2.26, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 8, Name = "Wake Up", ArtistId = 1, Duration = 3.52, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 9, Name = "5% Tint", ArtistId = 1, Duration = 3.16, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 10, Name = "NC-17", ArtistId = 1, Duration = 2.37, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 11, Name = "Astrothunder", ArtistId = 1, Duration = 2.23, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 12, Name = "Yosemite", ArtistId = 1, Duration = 2.30, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 13, Name = "Can't Say", ArtistId = 1, Duration = 3.18, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 14, Name = "Who? What!", ArtistId = 1, Duration = 2.57, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 15, Name = "ButterFly Effect", ArtistId = 1, Duration = 3.11, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 16, Name = "Houstonfornication", ArtistId = 1, Duration = 3.38, AlbumId = 1 });
-            _songs.Add(new Song() { Id = 17, Name = "Coffee Bean", ArtistId = 1, Duration = 3.29, AlbumId = 1 });
-        }
+        
         public Song Create(Song newSong)
         {
             if (newSong.Duration != 0 && NotNull(newSong.Name) && newSong.ArtistId != 0)

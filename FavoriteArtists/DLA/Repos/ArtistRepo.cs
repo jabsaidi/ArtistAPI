@@ -16,7 +16,7 @@ namespace FavoriteArtists.DLA.Repos
         public ArtistRepo(IArtistAlbumRepo artistAlbumRepo, IAlbumSongRepo albumSongRepo)
         {
             if (_db.Count == 0)
-                GenerateData();
+                _db = DataGenerator.GenerateArtists();
 
             _albumSongRepo = albumSongRepo;
             _artistAlbumRepo = artistAlbumRepo;
@@ -38,15 +38,6 @@ namespace FavoriteArtists.DLA.Repos
             return toBeDelete;
         }
 
-        public void GenerateData()
-        {
-            _db.Add(new Artist() { Id = 1, Name = "Travis Scott", IsGroup = false, Style="His own", Description="GOAT. No cap."});
-            _db.Add(new Artist() { Id = 2, Name = "Pnl", IsGroup = true, Style = "Cloud Rap", Description = "French cloud rapers" });
-            _db.Add(new Artist() { Id = 3, Name = "Brayden & $erna", IsGroup = true, Style = "Hip-Hop", Description = "Upcoming artists from Sherbrooke City." });
-            _db.Add(new Artist() { Id = 4, Name = "DISIZ", IsGroup = false, Style = "Rap", Description = "Un daron du rap francais." });
-            _db.Add(new Artist() { Id = 5, Name = "Chris Brown", IsGroup = false, Style = "R&B", Description = "Greatest overall artist of all time, but also the most hated of all time." });
-            _db.Add(new Artist() { Id = 6, Name = "Dinos", IsGroup = false, Style = "Rap", Description = "Jeune rapeur francais. PUNCHLINES!" });
-        }
         public List<Artist> GetAll()
         {
             // Circular dependency error
