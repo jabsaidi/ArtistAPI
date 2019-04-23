@@ -9,6 +9,7 @@ namespace FavoriteArtists.DLA.Models
     {
         public string Name { get; set; }
         public List<Song> Songs { get; set; }
+        public Cover Cover { get; set; }
 
         public Playlist()
         {

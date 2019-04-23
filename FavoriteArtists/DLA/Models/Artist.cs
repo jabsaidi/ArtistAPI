@@ -12,6 +12,7 @@ namespace FavoriteArtists.DLA.Models
         public string Style { get; set; }
         public string Description { get; set; }
         public List<Album> Albums { get; set; }
+        public Cover Cover { get; set; }
 
         public Artist()
         {

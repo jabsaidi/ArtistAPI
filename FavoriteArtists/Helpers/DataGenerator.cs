@@ -24,10 +24,8 @@ namespace FavoriteArtists.DLA.Repos
             var song3 = new Song() { Id = 20, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Stronger" };
             var song4 = new Song() { Id = 21, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Atlantis" };
             var song5 = new Song() { Id = 22, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Animal" };
-
-            var songs = new List<Song>() { song1, song2, song3, song4, song5 };
-
-            return new Playlist() { Id = 1, Name = "Rage", Songs = songs };
+            var songsList = new List<Song>() { song1, song2, song3, song4, song5 };
+            return new Playlist() { Id = 1, Name = "Rage", Songs = songsList };
         }
 
         public static Album GenerateAlbum()
