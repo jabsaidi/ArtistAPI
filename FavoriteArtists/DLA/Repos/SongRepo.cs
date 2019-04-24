@@ -1,23 +1,24 @@
-﻿using System.Linq;
-using FavoriteArtists.DLA.Models;
+﻿using FavoriteArtists.DLA.Models;
+using FavoriteArtists.Helpers;
 using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
     public class SongRepo : ISongRepo
     {
+        private readonly ISongCoverRepo _songCoverRepo;
         private static List<Song> _songs = new List<Song>();
 
-        public SongRepo()
+        public SongRepo(ISongCoverRepo songCoverRepo)
         {
             if (_songs.Count == 0)
-                DataGenerator.GenerateSongs();
+                _songs = DataGenerator.GenerateSongs();
+            _songCoverRepo = songCoverRepo;
         }
 
-        
         public Song Create(Song newSong)
         {
-            if (newSong.Duration != 0 && NotNull(newSong.Name) && newSong.ArtistId != 0)
+            if (newSong.Duration != 0 && Validations.NotNull(newSong.Name) && newSong.ArtistId != 0)
             {
                 _songs.Add(newSong);
                 return newSong;
@@ -28,21 +29,11 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Song> GetAll()
         {
-            return _songs;
-        }
-
-        public bool NotNull(params string[] inputs)
-        {
-            bool notNull = true;
-            foreach(string input in inputs)
+            foreach (var song in _songs)
             {
-                if(input == null)
-                {
-                    notNull = false;
-                    break;
-                }
+                song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
             }
-            return notNull;
+            return _songs;
         }
 
         public List<Song> GetSongsByArtistId(int id)
@@ -52,7 +43,10 @@ namespace FavoriteArtists.DLA.Repos
             foreach (Song song in _songs)
             {
                 if (song.ArtistId == id)
+                {
+                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
                     songs.Add(song);
+                }
             }
             return songs;
         }
@@ -69,7 +63,10 @@ namespace FavoriteArtists.DLA.Repos
             foreach (Song song in _songs)
             {
                 if (song.ArtistId == id)
+                {
                     songs.Add(song);
+                    GetSongCoverByAlbumId(song.AlbumId);
+                }
                 if (song.AlbumId == 0)
                     GetSingles();
             }
@@ -80,12 +77,36 @@ namespace FavoriteArtists.DLA.Repos
         {
             var singles = new List<Song>();
 
-            foreach(Song song in _songs)
+            foreach (Song song in _songs)
             {
                 if (song.AlbumId == 0)
                     singles.Add(song);
             }
             return singles;
+        }
+
+        public int GetSongCoverByAlbumId(int id)
+        {
+            return _songCoverRepo.GetSongCoverByAlbumId(id);
+        }
+    }
+
+    public interface ISongCoverRepo
+    {
+        int GetSongCoverByAlbumId(int id);
+    }
+
+    public class SongCoverRepo : ISongCoverRepo
+    {
+        private readonly ICoverRepo _coverRepo;
+        public SongCoverRepo(ICoverRepo coverRepo)
+        {
+            _coverRepo = coverRepo;
+        }
+
+        public int GetSongCoverByAlbumId(int id)
+        {
+            return _coverRepo.GetCoverByAlbumId(id);
         }
     }
 }

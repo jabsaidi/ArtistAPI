@@ -32,7 +32,7 @@ namespace FavoriteArtists.Controllers
         public IActionResult Create(SongJsonBody body)
         {
             Song newSong = body.ConvertToSong(body);
-            newSong.Id = 1;
+            newSong.Id = _songRepo.GetNextId();
 
             Song createdSong = _songRepo.Create(newSong);
 

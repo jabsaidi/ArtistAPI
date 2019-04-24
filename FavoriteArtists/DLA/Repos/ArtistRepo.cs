@@ -1,24 +1,20 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using FavoriteArtists.DLA.Models;
+﻿using FavoriteArtists.DLA.Models;
 using FavoriteArtists.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
     public class ArtistRepo : IArtistRepo
     {
-        private IAlbumSongRepo _albumSongRepo;
         private IArtistAlbumRepo _artistAlbumRepo;
         private static List<Artist> _db = new List<Artist>();
 
-        public ArtistRepo(IArtistAlbumRepo artistAlbumRepo, IAlbumSongRepo albumSongRepo)
+        public ArtistRepo(IArtistAlbumRepo artistAlbumRepo)
         {
             if (_db.Count == 0)
                 _db = DataGenerator.GenerateArtists();
 
-            _albumSongRepo = albumSongRepo;
             _artistAlbumRepo = artistAlbumRepo;
         }
 
@@ -29,13 +25,13 @@ namespace FavoriteArtists.DLA.Repos
             return newArtist;
         }
 
-        public Artist Delete(int id)
+        public bool Delete(int id)
         {
             var toBeDelete = _db.FirstOrDefault(a => a.Id == id);
             if (toBeDelete == null)
-                return null;
+                return false;
             _db.Remove(toBeDelete);
-            return toBeDelete;
+            return true;
         }
 
         public List<Artist> GetAll()
@@ -44,8 +40,6 @@ namespace FavoriteArtists.DLA.Repos
             foreach (var artist in _db)
             {
                 artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
-                foreach (var album in artist.Albums)
-                    album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
             }
             return _db;
         }
@@ -68,19 +62,19 @@ namespace FavoriteArtists.DLA.Repos
             var allArtists = GetAll();
             var groups = new List<Artist>();
 
-            foreach(var artist in allArtists)
+            foreach (var artist in allArtists)
             {
                 if (artist.IsGroup == true)
                     groups.Add(artist);
             }
             return groups;
         }
-         
+
         public List<Artist> GetRapers()
         {
             var allArtists = GetAll();
             var rappers = new List<Artist>();
-            foreach(var artist in allArtists)
+            foreach (var artist in allArtists)
             {
                 if (artist.Style == "Rap" || artist.Style == "Hip-Hop")
                     rappers.Add(artist);

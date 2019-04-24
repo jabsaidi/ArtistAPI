@@ -9,6 +9,7 @@ namespace FavoriteArtists.DLA.Repos
         List<Song> GetAll();
         List<Song> GetSingles();
         Song Create(Song newSong);
+        int GetSongCoverByAlbumId(int id);
         List<Song> GetSongsByAlbumId(int id);
         List<Song> GetSongsByArtistId(int id);
     }

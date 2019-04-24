@@ -51,8 +51,8 @@ namespace FavoriteArtists.Controllers
         [HttpDelete("{id}", Name ="Delete artist")]
         public IActionResult Delete(int id)
         {
-            Artist toBeDeleted = _artistRepo.Delete(id);
-            if (toBeDeleted == null)
+            bool toBeDeleted = _artistRepo.Delete(id);
+            if (toBeDeleted == false)
                 return BadRequest($"Id {id} does not exist.");
             return Ok(toBeDeleted);
         }

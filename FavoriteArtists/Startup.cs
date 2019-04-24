@@ -30,9 +30,12 @@ namespace FavoriteArtists
 
             services.AddScoped(typeof(ISongRepo), typeof(SongRepo));
             services.AddScoped(typeof(IAlbumRepo), typeof(AlbumRepo));
+            services.AddScoped(typeof(ICoverRepo), typeof(CoverRepo));
             services.AddScoped(typeof(IArtistRepo), typeof(ArtistRepo));
             services.AddScoped(typeof(IPlaylistRepo), typeof(PlaylistRepo));
             services.AddScoped(typeof(IAlbumSongRepo), typeof(AlbumSongRepo));
+            services.AddScoped(typeof(ISongCoverRepo), typeof(SongCoverRepo));
+            services.AddScoped(typeof(IAlbumCoverRepo), typeof(AlbumCoverRepo));
             services.AddScoped(typeof(IArtistAlbumRepo), typeof(ArtistAlbumRepo));
         }
 

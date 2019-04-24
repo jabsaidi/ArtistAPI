@@ -9,7 +9,7 @@ namespace FavoriteArtists.DLA.Repos
     public interface IArtistRepo
     {
         int GetNextId();
-        Artist Delete(int id);
+        bool Delete(int id);
         List<Artist> GetAll();
         List<Artist> GetGroups();
         List<Artist> GetRapers();

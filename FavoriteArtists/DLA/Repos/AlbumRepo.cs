@@ -1,64 +1,63 @@
-﻿using System.Linq;
-using FavoriteArtists.DLA.Models;
+﻿using FavoriteArtists.DLA.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
     public class AlbumRepo : IAlbumRepo
     {
+        private IAlbumSongRepo _albumSongRepo;
+        private readonly IAlbumCoverRepo _albumCoverRepo;
         private static List<Album> _albums = new List<Album>();
 
-        public AlbumRepo()
+        public AlbumRepo(IAlbumCoverRepo albumCoverRepo, IAlbumSongRepo albumSongRepo)
         {
             if (_albums.Count == 0)
-                DataGenerator.GenerateAlbum();
+                _albums = DataGenerator.GenerateAlbum();
+
+            _albumSongRepo = albumSongRepo;
+            _albumCoverRepo = albumCoverRepo;
         }
 
         public List<Album> GetAlbumsByArtistId(int id)
         {
             var albums = new List<Album>();
-            foreach(var album in _albums)
+            foreach (var album in _albums)
             {
                 if (album.ArtistId == id)
                 {
-                    if (album.Id == 0)
-                    {
-                        Album single = CreateSingle(album.ArtistId);
-                        albums.Add(single);
-                    }
                     albums.Add(album);
+                    album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+                    album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
                 }
             }
             return albums;
         }
 
-        public Album CreateSingle(int artistId)
-        {
-            Album single = new Album()
-            {
-                Id = 0,
-                ArtistId = artistId,
-                Name = "Single"
-            };
-            return single;
-        }
-
         public List<Album> GetAll()
         {
+            foreach (var album in _albums)
+            {
+                album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+                album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+            }
             return _albums;
         }
 
         public Album GetAlbumByName(string name)
         {
-            return _albums.FirstOrDefault(a=>a.Name == name);
+            Album album = _albums.FirstOrDefault(a => a.Name == name);
+            album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+            album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+            return album;
         }
 
         public Song GetSongFromAlbum(Album album, string song)
         {
             Song foundSong = new Song();
-            foreach(Song _song in album.Songs)
+            foreach (Song _song in album.Songs)
             {
-                if(_song.Name == song)
+                if (_song.Name == song)
                 {
                     foundSong = _song;
                     break;

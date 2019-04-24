@@ -11,7 +11,7 @@ namespace FavoriteArtists.DLA.Repos
         public PlaylistRepo()
         {
             if (_playlists.Count == 0)
-                DataGenerator.GeneratePlaylist();
+                _playlists = DataGenerator.GeneratePlaylist();
         }
 
         public List<Playlist> GetAllPlaylists()
