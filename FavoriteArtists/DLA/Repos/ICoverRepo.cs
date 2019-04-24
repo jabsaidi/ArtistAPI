@@ -9,8 +9,11 @@ namespace FavoriteArtists.DLA.Repos
     {
         int GetNextId();
         List<Cover> GetAll();
+        Cover GetById(int id);
         Cover Create(Cover cover);
         int GetCoverByAlbumId(int id);
+        List<Cover> GetProfileCovers();
+        Cover Update(Cover updatedCover);
         int GetArtistProfileCoverByArtistId(int id);
     }
 }

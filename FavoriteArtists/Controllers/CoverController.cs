@@ -23,6 +23,15 @@ namespace FavoriteArtists.Controllers
             return Ok(covers);
         }
 
+        [HttpGet("{id}", Name = "Get by Id")]
+        public IActionResult GetById(int id)
+        {
+            Cover cover = _coverRepo.GetById(id);
+            if (cover == null)
+                return NotFound();
+            return Ok(cover);
+        }
+
         [HttpPost("create/")]
         public IActionResult Create(CoverJsonBody body)
         {
@@ -33,6 +42,26 @@ namespace FavoriteArtists.Controllers
             if (created == null)
                 return BadRequest();
             return Ok(created);
+        }
+
+        [HttpGet("profile/")]
+        public IActionResult GetProfileCovers()
+        {
+            var covers = _coverRepo.GetProfileCovers();
+            return Ok(covers);
+        }
+
+        [HttpPut("update/{id}")]
+        public IActionResult Modify(int id, CoverJsonBody body)
+        {
+            var updatedCover = body.ConvertToCover(body);
+            updatedCover.Id = id;
+
+            var updated = _coverRepo.Update(updatedCover);
+            if (updated == null)
+                return BadRequest();
+
+            return Ok(updated);
         }
     }
 }

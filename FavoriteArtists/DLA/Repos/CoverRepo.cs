@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FavoriteArtists.DLA.Models;
+using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
@@ -17,7 +16,7 @@ namespace FavoriteArtists.DLA.Repos
 
         public Cover Create(Cover cover)
         {
-            if(cover != null)
+            if (cover != null)
                 _covers.Add(cover);
             return cover;
         }
@@ -41,9 +40,41 @@ namespace FavoriteArtists.DLA.Repos
             return cover.Id;
         }
 
+        public Cover GetById(int id)
+        {
+            return _covers.FirstOrDefault(c => c.Id == id);
+        }
+
         public int GetNextId()
         {
             return _covers.Count + 1;
+        }
+
+        public List<Cover> GetProfileCovers()
+        {
+            var profilesCovers = new List<Cover>();
+            foreach (var cover in _covers)
+            {
+                if (cover.IsProfilePicture == true)
+                    profilesCovers.Add(cover);
+            }
+            return profilesCovers;
+        }
+
+        public Cover Update(Cover updatedCover)
+        {
+            var toUpdate = GetById(updatedCover.Id);
+            if (toUpdate == null)
+                return null;
+
+            toUpdate.SongId = updatedCover.SongId;
+            toUpdate.AlbumId = updatedCover.AlbumId;
+            toUpdate.ArtistId = updatedCover.ArtistId;
+            toUpdate.ImagePath = updatedCover.ImagePath;
+            toUpdate.PlayListId = updatedCover.PlayListId;
+            toUpdate.IsProfilePicture = updatedCover.IsProfilePicture;
+
+            return toUpdate;
         }
     }
 }

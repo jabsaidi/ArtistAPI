@@ -6,7 +6,7 @@ namespace FavoriteArtists.DLA.Repos
     public static class DataGenerator
     {
         private static Cover _cover = new Cover() { PlayListId = null, ImagePath = "Images/Astroworld.jpg", Id = 1, ArtistId = 1, AlbumId = 1, IsProfilePicture = false};
-        private static Cover _profileCover = new Cover() { PlayListId = null, ImagePath = "Images/Travis.jpg", Id = 1, ArtistId = 1, IsProfilePicture = true};
+        private static Cover _profileCover = new Cover() { PlayListId = null, ImagePath = "Images/Travis.jpg", Id = 2, ArtistId = 1, IsProfilePicture = true};
 
         public static List<Artist> GenerateArtists()
         {
