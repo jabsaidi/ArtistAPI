@@ -67,46 +67,13 @@ namespace FavoriteArtists.DLA.Repos
                     songs.Add(song);
                     GetSongCoverByAlbumId(song.AlbumId);
                 }
-                if (song.AlbumId == 0)
-                    GetSingles();
             }
             return songs;
-        }
-
-        public List<Song> GetSingles()
-        {
-            var singles = new List<Song>();
-
-            foreach (Song song in _songs)
-            {
-                if (song.AlbumId == 0)
-                    singles.Add(song);
-            }
-            return singles;
         }
 
         public int GetSongCoverByAlbumId(int id)
         {
             return _songCoverRepo.GetSongCoverByAlbumId(id);
-        }
-    }
-
-    public interface ISongCoverRepo
-    {
-        int GetSongCoverByAlbumId(int id);
-    }
-
-    public class SongCoverRepo : ISongCoverRepo
-    {
-        private readonly ICoverRepo _coverRepo;
-        public SongCoverRepo(ICoverRepo coverRepo)
-        {
-            _coverRepo = coverRepo;
-        }
-
-        public int GetSongCoverByAlbumId(int id)
-        {
-            return _coverRepo.GetCoverByAlbumId(id);
         }
     }
 }

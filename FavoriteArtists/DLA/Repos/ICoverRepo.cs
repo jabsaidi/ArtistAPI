@@ -11,5 +11,6 @@ namespace FavoriteArtists.DLA.Repos
         List<Cover> GetAll();
         Cover Create(Cover cover);
         int GetCoverByAlbumId(int id);
+        int GetArtistProfileCoverByArtistId(int id);
     }
 }

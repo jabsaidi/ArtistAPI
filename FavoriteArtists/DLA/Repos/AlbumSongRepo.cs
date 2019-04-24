@@ -16,10 +16,5 @@ namespace FavoriteArtists.DLA.Repos
         {
             return _songRepo.GetSongsByAlbumId(id);
         }
-
-        public List<Song> GetSingles()
-        {
-            return _songRepo.GetSingles();
-        }
     }
 }

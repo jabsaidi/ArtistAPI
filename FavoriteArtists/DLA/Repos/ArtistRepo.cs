@@ -5,17 +5,37 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
+    public interface IArtistCoverRepo
+    {
+        int GetProfileCoverByArtistId(int id);
+    }
+
+    public class ArtistCoverRepo : IArtistCoverRepo
+    {
+        private readonly ICoverRepo _coverRepo;
+        public ArtistCoverRepo(ICoverRepo coverRepo)
+        {
+            _coverRepo = coverRepo;
+        }
+        public int GetProfileCoverByArtistId(int id)
+        {
+            return _coverRepo.GetArtistProfileCoverByArtistId(id);
+        }
+    }
+
     public class ArtistRepo : IArtistRepo
     {
-        private IArtistAlbumRepo _artistAlbumRepo;
+        private readonly IArtistAlbumRepo _artistAlbumRepo;
+        private readonly IArtistCoverRepo _artistCoverRepo;
         private static List<Artist> _db = new List<Artist>();
 
-        public ArtistRepo(IArtistAlbumRepo artistAlbumRepo)
+        public ArtistRepo(IArtistAlbumRepo artistAlbumRepo, IArtistCoverRepo artistCoverRepo)
         {
             if (_db.Count == 0)
                 _db = DataGenerator.GenerateArtists();
 
             _artistAlbumRepo = artistAlbumRepo;
+            _artistCoverRepo = artistCoverRepo;
         }
 
         public Artist Create(Artist newArtist)
@@ -40,6 +60,7 @@ namespace FavoriteArtists.DLA.Repos
             foreach (var artist in _db)
             {
                 artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
+                artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             }
             return _db;
         }
@@ -47,6 +68,7 @@ namespace FavoriteArtists.DLA.Repos
         public Artist GetArtistById(int id)
         {
             var artist = _db.SingleOrDefault(a => a.Id == id);
+            artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             return artist;
         }
 
@@ -54,6 +76,7 @@ namespace FavoriteArtists.DLA.Repos
         {
             name = name.FirstCharToUpper();
             var artist = _db.FirstOrDefault(a => a.Name == name);
+            artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             return artist;
         }
 
@@ -65,7 +88,10 @@ namespace FavoriteArtists.DLA.Repos
             foreach (var artist in allArtists)
             {
                 if (artist.IsGroup == true)
+                {
+                    artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
                     groups.Add(artist);
+                }
             }
             return groups;
         }
@@ -77,7 +103,10 @@ namespace FavoriteArtists.DLA.Repos
             foreach (var artist in allArtists)
             {
                 if (artist.Style == "Rap" || artist.Style == "Hip-Hop")
+                {
+                    artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
                     rappers.Add(artist);
+                }
             }
             return rappers;
         }

@@ -27,6 +27,14 @@ namespace FavoriteArtists.DLA.Repos
             return _covers;
         }
 
+        public int GetArtistProfileCoverByArtistId(int id)
+        {
+            var cover = _covers.FirstOrDefault(c => c.ArtistId == id);
+            if (cover == null)
+                return 0;
+            return cover.Id;
+        }
+
         public int GetCoverByAlbumId(int id)
         {
             var cover = _covers.FirstOrDefault(c => c.AlbumId == id);

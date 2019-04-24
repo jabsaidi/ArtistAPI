@@ -5,7 +5,6 @@ namespace FavoriteArtists.DLA.Repos
 {
     public interface IAlbumSongRepo
     {
-        List<Song> GetSingles();
         List<Song> GetSongsByAlbumId(int id);
     }
 }

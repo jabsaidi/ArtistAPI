@@ -7,5 +7,6 @@
         public int? SongId { get; set; }
         public int? PlayListId { get; set; }
         public string ImagePath { get; set; }
+        public bool IsProfilePicture { get; set; }
     }
 }
