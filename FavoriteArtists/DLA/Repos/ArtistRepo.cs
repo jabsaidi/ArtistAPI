@@ -38,7 +38,6 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Artist> GetAll()
         {
-            // Circular dependency error
             foreach (var artist in _db)
             {
                 artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
@@ -67,34 +66,25 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Artist> GetGroups()
         {
-            var allArtists = GetAll();
-            var groups = new List<Artist>();
-
-            foreach (var artist in allArtists)
+            var groups = _db.Where(a => a.IsGroup == true).Select(artist =>
             {
-                if (artist.IsGroup == true)
-                {
-                    artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
-                    artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
-                    groups.Add(artist);
-                }
-            }
+                artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
+                artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
+                return artist;
+            }).ToList();
+
             return groups;
         }
 
         public List<Artist> GetRapers()
         {
-            var allArtists = GetAll();
-            var rappers = new List<Artist>();
-            foreach (var artist in allArtists)
+            var rappers = _db.Where(a => a.Style == "Rap" || a.Style == "Hip-Hop").Select(artist =>
             {
-                if (artist.Style == "Rap" || artist.Style == "Hip-Hop")
-                {
-                    artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
-                    artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
-                    rappers.Add(artist);
-                }
-            }
+                artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
+                artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
+                return artist;
+            }).ToList();
+
             return rappers;
         }
 

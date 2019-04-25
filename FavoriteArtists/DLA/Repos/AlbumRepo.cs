@@ -21,16 +21,13 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Album> GetAlbumsByArtistId(int id)
         {
-            var albums = new List<Album>();
-            foreach (var album in _albums)
-            {
-                if (album.ArtistId == id)
+            List<Album> albums = _albums.Where(a => a.ArtistId == id)
+                .Select(album =>
                 {
                     album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
                     album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
-                    albums.Add(album);
-                }
-            }
+                    return album;
+                }).ToList();
             return albums;
         }
 
@@ -46,16 +43,12 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Album> GetAlbumsByName(string name)
         {
-            List<Album> albums = new List<Album>();
-            foreach (var album in _albums)
-            {
-                if (album.Name == name)
-                {
-                    album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
-                    album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
-                    albums.Add(album);
-                }
-            }
+            List<Album> albums = _albums.Where(a => a.Name == name).Select(album =>
+              {
+                  album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+                  album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+                  return album;
+              }).ToList();
             return albums;
         }
 

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FavoriteArtists.DLA.Models;
+using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
@@ -14,6 +14,7 @@ namespace FavoriteArtists.DLA.Repos
         int GetCoverByAlbumId(int id);
         List<Cover> GetProfileCovers();
         Cover Update(Cover updatedCover);
+        int GetCoverByPlaylistId(int id);
         int GetArtistProfileCoverByArtistId(int id);
     }
 }

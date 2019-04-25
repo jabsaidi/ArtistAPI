@@ -35,7 +35,6 @@ namespace FavoriteArtists.Controllers
             newSong.Id = _songRepo.GetNextId();
 
             Song createdSong = _songRepo.Create(newSong);
-
             if (createdSong == null)
                 return BadRequest();
             return Ok(createdSong);
@@ -55,6 +54,18 @@ namespace FavoriteArtists.Controllers
         {
             List<Song> songs = _songRepo.GetSongsByName(name);
             return Ok(songs);
+        }
+
+        [HttpPut("update/{id}", Name = "Update song by id")]
+        public IActionResult UpdateSongById(int id, SongJsonBody body)
+        {
+            Song songToUpdate = body.ConvertToSong(body);
+            songToUpdate.Id = id;
+
+            Song updatedSong = _songRepo.UpdateSong(songToUpdate);
+            if (updatedSong == null)
+                return BadRequest();
+            return Ok(updatedSong);
         }
     }
 }

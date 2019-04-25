@@ -1,8 +1,8 @@
 ﻿using FavoriteArtists.DLA.Models;
+using FavoriteArtists.Extensions;
 using FavoriteArtists.Helpers;
 using System.Collections.Generic;
 using System.Linq;
-using FavoriteArtists.Extensions;
 
 namespace FavoriteArtists.DLA.Repos
 {
@@ -40,16 +40,11 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Song> GetSongsByArtistId(int id)
         {
-            List<Song> songs = new List<Song>();
-
-            foreach (Song song in _songs)
+            List<Song> songs = _songs.Where(s => s.ArtistId == id).Select(s =>
             {
-                if (song.ArtistId == id)
-                {
-                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
-                    songs.Add(song);
-                }
-            }
+                s.CoverId = GetSongCoverByAlbumId(s.AlbumId);
+                return s;
+            }).ToList();
             return songs;
         }
 
@@ -60,16 +55,11 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Song> GetSongsByAlbumId(int id)
         {
-            List<Song> songs = new List<Song>();
-
-            foreach (Song song in _songs)
+            List<Song> songs = _songs.Where(s => s.AlbumId == id).Select(song =>
             {
-                if (song.AlbumId == id)
-                {
-                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
-                    songs.Add(song);
-                }
-            }
+                song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
+                return song;
+            }).ToList();
             return songs;
         }
 
@@ -88,16 +78,28 @@ namespace FavoriteArtists.DLA.Repos
         public List<Song> GetSongsByName(string name)
         {
             name = name.FirstCharToUpper();
-            var sameNameSongs = new List<Song>();
-            foreach (var song in _songs)
+
+            var sameNameSongs = _songs.Where(s => s.Name == name).Select(song =>
             {
-                if (song.Name == name)
-                {
-                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
-                    sameNameSongs.Add(song);
-                }
-            }
+                song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
+                return song;
+            }).ToList();
             return sameNameSongs;
+        }
+
+        public Song UpdateSong(Song song)
+        {
+            Song originalSong = _songs.FirstOrDefault(s => s.Id == song.Id);
+            if (song == null)
+                return null;
+
+            originalSong.Name = song.Name;
+            originalSong.AlbumId = song.AlbumId;
+            originalSong.CoverId = song.CoverId;
+            originalSong.ArtistId = song.ArtistId;
+            originalSong.Duration = song.Duration;
+
+            return originalSong;
         }
     }
 }

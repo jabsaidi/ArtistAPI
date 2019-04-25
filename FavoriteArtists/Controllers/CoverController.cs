@@ -1,6 +1,6 @@
-﻿using FavoriteArtists.DLA.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using FavoriteArtists.DLA.Repos;
-using Microsoft.AspNetCore.Mvc;
+using FavoriteArtists.DLA.Models;
 
 namespace FavoriteArtists.Controllers
 {
@@ -19,7 +19,6 @@ namespace FavoriteArtists.Controllers
         public IActionResult GetAll()
         {
             var covers = _coverRepo.GetAll();
-
             return Ok(covers);
         }
 
@@ -60,7 +59,6 @@ namespace FavoriteArtists.Controllers
             var updated = _coverRepo.Update(updatedCover);
             if (updated == null)
                 return BadRequest();
-
             return Ok(updated);
         }
     }

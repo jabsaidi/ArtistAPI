@@ -54,13 +54,8 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Cover> GetProfileCovers()
         {
-            var profilesCovers = new List<Cover>();
-            foreach (var cover in _covers)
-            {
-                if (cover.IsProfilePicture == true)
-                    profilesCovers.Add(cover);
-            }
-            return profilesCovers;
+            var profileCovers = _covers.Where(c => c.IsProfilePicture == true).ToList();
+            return profileCovers;
         }
 
         public Cover Update(Cover updatedCover)
@@ -77,6 +72,12 @@ namespace FavoriteArtists.DLA.Repos
             toUpdate.IsProfilePicture = updatedCover.IsProfilePicture;
 
             return toUpdate;
+        }
+
+        public int GetCoverByPlaylistId(int id)
+        {
+            Cover cover = _covers.FirstOrDefault(c => c.PlayListId == id);
+            return cover.Id;
         }
     }
 }
