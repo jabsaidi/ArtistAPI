@@ -38,28 +38,9 @@ namespace FavoriteArtists.Controllers
         {
             name = name.FirstCharToUpper();
 
-            Album album = _albumRepo.GetAlbumByName(name);
+            List<Album> albums = _albumRepo.GetAlbumsByName(name);
 
-            if (album == null)
-                return NotFound();
-            album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
-            return Ok(album);
-        }
-
-        [HttpGet("{album}/{song}", Name = "Get Song in Album")]
-        public IActionResult GetSongByAlbum(string albumName, string songName)
-        {
-            songName = songName.FirstCharToUpper();
-            albumName = albumName.FirstCharToUpper();
-
-            Album album = _albumRepo.GetAlbumByName(albumName);
-            album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
-
-            Song _song = _albumRepo.GetSongFromAlbum(album, songName);
-
-            if (_song.Name == null)
-                return NotFound();
-            return Ok(_song);
+            return Ok(albums);
         }
 
         [HttpGet("{id}", Name = "Get album by Id")]

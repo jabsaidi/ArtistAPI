@@ -12,5 +12,6 @@ namespace FavoriteArtists.DLA.Repos
         int GetSongCoverByAlbumId(int id);
         List<Song> GetSongsByAlbumId(int id);
         List<Song> GetSongsByArtistId(int id);
+        List<Song> GetSongsByName(string name);
     }
 }

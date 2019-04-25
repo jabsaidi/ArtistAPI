@@ -7,8 +7,7 @@ namespace FavoriteArtists.DLA.Repos
     {
         List<Album> GetAll();
         Album GetById(int id);
-        Album GetAlbumByName(string name);
+        List<Album> GetAlbumsByName(string name);
         List<Album> GetAlbumsByArtistId(int id);
-        Song GetSongFromAlbum(Album album, string song);
     }
 }

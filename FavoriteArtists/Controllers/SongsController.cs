@@ -49,5 +49,12 @@ namespace FavoriteArtists.Controllers
                 return NotFound();
             return Ok(song);
         }
+
+        [HttpGet("name/{name}", Name = "Get songs with same name")]
+        public IActionResult GetSongsByName(string name)
+        {
+            List<Song> songs = _songRepo.GetSongsByName(name);
+            return Ok(songs);
+        }
     }
 }

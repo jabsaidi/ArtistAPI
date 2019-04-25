@@ -26,9 +26,9 @@ namespace FavoriteArtists.DLA.Repos
             {
                 if (album.ArtistId == id)
                 {
-                    albums.Add(album);
                     album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
                     album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+                    albums.Add(album);
                 }
             }
             return albums;
@@ -44,26 +44,19 @@ namespace FavoriteArtists.DLA.Repos
             return _albums;
         }
 
-        public Album GetAlbumByName(string name)
+        public List<Album> GetAlbumsByName(string name)
         {
-            Album album = _albums.FirstOrDefault(a => a.Name == name);
-            album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
-            album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
-            return album;
-        }
-
-        public Song GetSongFromAlbum(Album album, string song)
-        {
-            Song foundSong = new Song();
-            foreach (Song _song in album.Songs)
+            List<Album> albums = new List<Album>();
+            foreach (var album in _albums)
             {
-                if (_song.Name == song)
+                if (album.Name == name)
                 {
-                    foundSong = _song;
-                    break;
+                    album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+                    album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+                    albums.Add(album);
                 }
             }
-            return foundSong;
+            return albums;
         }
 
         public Album GetById(int id)

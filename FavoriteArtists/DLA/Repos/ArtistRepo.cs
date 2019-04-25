@@ -50,6 +50,7 @@ namespace FavoriteArtists.DLA.Repos
         public Artist GetArtistById(int id)
         {
             var artist = _db.SingleOrDefault(a => a.Id == id);
+            artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
             artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             return artist;
         }
@@ -58,6 +59,8 @@ namespace FavoriteArtists.DLA.Repos
         {
             name = name.FirstCharToUpper();
             var artist = _db.FirstOrDefault(a => a.Name == name);
+            if (artist == null)
+                return null;
             artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             return artist;
         }
@@ -71,6 +74,7 @@ namespace FavoriteArtists.DLA.Repos
             {
                 if (artist.IsGroup == true)
                 {
+                    artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
                     artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
                     groups.Add(artist);
                 }
@@ -86,6 +90,7 @@ namespace FavoriteArtists.DLA.Repos
             {
                 if (artist.Style == "Rap" || artist.Style == "Hip-Hop")
                 {
+                    artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
                     artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
                     rappers.Add(artist);
                 }

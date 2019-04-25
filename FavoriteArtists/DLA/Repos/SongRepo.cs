@@ -2,6 +2,7 @@
 using FavoriteArtists.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using FavoriteArtists.Extensions;
 
 namespace FavoriteArtists.DLA.Repos
 {
@@ -82,6 +83,21 @@ namespace FavoriteArtists.DLA.Repos
             Song song = _songs.FirstOrDefault(s => s.Id == id);
             song.CoverId = _songCoverRepo.GetSongCoverByAlbumId(song.AlbumId);
             return song;
+        }
+
+        public List<Song> GetSongsByName(string name)
+        {
+            name = name.FirstCharToUpper();
+            var sameNameSongs = new List<Song>();
+            foreach (var song in _songs)
+            {
+                if (song.Name == name)
+                {
+                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
+                    sameNameSongs.Add(song);
+                }
+            }
+            return sameNameSongs;
         }
     }
 }

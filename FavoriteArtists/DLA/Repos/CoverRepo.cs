@@ -28,7 +28,7 @@ namespace FavoriteArtists.DLA.Repos
 
         public int GetArtistProfileCoverByArtistId(int id)
         {
-            var cover = _covers.FirstOrDefault(c => c.ArtistId == id);
+            var cover = _covers.FirstOrDefault(c => c.ArtistId == id && c.IsProfilePicture == true);
             if (cover == null)
                 return 0;
             return cover.Id;
@@ -37,6 +37,8 @@ namespace FavoriteArtists.DLA.Repos
         public int GetCoverByAlbumId(int id)
         {
             var cover = _covers.FirstOrDefault(c => c.AlbumId == id);
+            if (cover == null)
+                return 0;
             return cover.Id;
         }
 

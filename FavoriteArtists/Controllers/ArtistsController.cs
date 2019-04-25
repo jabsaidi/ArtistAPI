@@ -39,7 +39,7 @@ namespace FavoriteArtists.Controllers
             return Ok(artist);
         }
 
-        [HttpGet("{id}", Name = "Get specific artist")]
+        [HttpGet("{id}", Name = "Get artist by id")]
         public IActionResult GetById(int id)
         {
             Artist artist = _artistRepo.GetArtistById(id);
@@ -48,7 +48,7 @@ namespace FavoriteArtists.Controllers
             return Ok(artist);
         }
 
-        [HttpDelete("{id}", Name ="Delete artist")]
+        [HttpDelete("{id}", Name ="Delete artist by id")]
         public IActionResult Delete(int id)
         {
             bool toBeDeleted = _artistRepo.Delete(id);
@@ -57,7 +57,7 @@ namespace FavoriteArtists.Controllers
             return Ok(toBeDeleted);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "Update artist by id")]
         public IActionResult Modify(int id, ArtistJsonBody body)
         {
             Artist toBeModified = body.GenerateTemplate(body);
