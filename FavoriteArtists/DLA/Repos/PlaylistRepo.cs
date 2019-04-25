@@ -4,25 +4,6 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface IPlaylistCoverRepo
-    {
-        int GetPlaylistCoverById(int id);
-    }
-
-    public class PlaylistCoverRepo : IPlaylistCoverRepo
-    {
-        private readonly ICoverRepo _coverRepo;
-        public PlaylistCoverRepo(ICoverRepo coverRepo)
-        {
-            _coverRepo = coverRepo;
-        }
-
-        public int GetPlaylistCoverById(int id)
-        {
-            return _coverRepo.GetCoverByPlaylistId(id);
-        }
-    }
-
     public class PlaylistRepo : IPlaylistRepo
     {
         private readonly IPlaylistCoverRepo _playlistCoverRepo;

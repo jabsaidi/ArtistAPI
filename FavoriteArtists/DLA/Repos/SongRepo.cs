@@ -32,9 +32,7 @@ namespace FavoriteArtists.DLA.Repos
         public List<Song> GetAll()
         {
             foreach (var song in _songs)
-            {
                 song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
-            }
             return _songs;
         }
 
