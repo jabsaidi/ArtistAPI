@@ -65,5 +65,13 @@ namespace FavoriteArtists.DLA.Repos
             }
             return foundSong;
         }
+
+        public Album GetById(int id)
+        {
+            Album album = _albums.FirstOrDefault(a => a.Id == id);
+            album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+            album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
+            return album;
+        }
     }
 }

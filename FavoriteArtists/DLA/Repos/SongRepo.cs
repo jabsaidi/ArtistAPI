@@ -1,6 +1,7 @@
 ﻿using FavoriteArtists.DLA.Models;
 using FavoriteArtists.Helpers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
@@ -62,10 +63,10 @@ namespace FavoriteArtists.DLA.Repos
 
             foreach (Song song in _songs)
             {
-                if (song.ArtistId == id)
+                if (song.AlbumId == id)
                 {
+                    song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
                     songs.Add(song);
-                    GetSongCoverByAlbumId(song.AlbumId);
                 }
             }
             return songs;
@@ -74,6 +75,13 @@ namespace FavoriteArtists.DLA.Repos
         public int GetSongCoverByAlbumId(int id)
         {
             return _songCoverRepo.GetSongCoverByAlbumId(id);
+        }
+
+        public Song GetById(int id)
+        {
+            Song song = _songs.FirstOrDefault(s => s.Id == id);
+            song.CoverId = _songCoverRepo.GetSongCoverByAlbumId(song.AlbumId);
+            return song;
         }
     }
 }

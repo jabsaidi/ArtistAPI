@@ -40,5 +40,14 @@ namespace FavoriteArtists.Controllers
                 return BadRequest();
             return Ok(createdSong);
         }
+
+        [HttpGet("{id}", Name = "Get song by id")]
+        public IActionResult GetById(int id)
+        {
+            Song song = _songRepo.GetById(id);
+            if (song == null)
+                return NotFound();
+            return Ok(song);
+        }
     }
 }

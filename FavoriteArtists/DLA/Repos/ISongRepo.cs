@@ -7,6 +7,7 @@ namespace FavoriteArtists.DLA.Repos
     {
         int GetNextId();
         List<Song> GetAll();
+        Song GetById(int id);
         Song Create(Song newSong);
         int GetSongCoverByAlbumId(int id);
         List<Song> GetSongsByAlbumId(int id);

@@ -33,7 +33,7 @@ namespace FavoriteArtists.Controllers
             return Ok(albums);
         }
 
-        [HttpGet("{name}", Name = "Get album by name")]
+        [HttpGet("name/{name}", Name = "Get album by name")]
         public IActionResult GetAlbumByName(string name)
         {
             name = name.FirstCharToUpper();
@@ -60,6 +60,15 @@ namespace FavoriteArtists.Controllers
             if (_song.Name == null)
                 return NotFound();
             return Ok(_song);
+        }
+
+        [HttpGet("{id}", Name = "Get album by Id")]
+        public IActionResult GetById(int id)
+        {
+            Album album = _albumRepo.GetById(id);
+            if (album == null)
+                return NotFound();
+            return Ok(album);
         }
     }
 }
