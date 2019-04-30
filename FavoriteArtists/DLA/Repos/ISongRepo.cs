@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface ISongRepo
+    public interface ISongRepo : IBaseRepo<Song>
     {
         bool SongExists(Song song);
         int GetSongCoverByAlbumId(int id);

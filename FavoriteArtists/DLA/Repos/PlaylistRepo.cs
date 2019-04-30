@@ -5,15 +5,18 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class PlaylistRepo : IPlaylistRepo, IBaseRepo<Playlist>
+    public class PlaylistRepo : IPlaylistRepo
     {
+        private static int _startup = 0;
         private readonly IPlaylistCoverRepo _playlistCoverRepo;
         private static List<Playlist> _playlists = new List<Playlist>();
 
         public PlaylistRepo(IPlaylistCoverRepo playlistCoverRepo)
         {
-            if (_playlists.Count == 0)
+            _startup++;
+            if (_startup == 1)
                 _playlists = DataGenerator.GeneratePlaylist();
+
             _playlistCoverRepo = playlistCoverRepo;
         }
 
@@ -69,6 +72,14 @@ namespace FavoriteArtists.DLA.Repos
                     return playlist;
                 }).ToList();
             return playlists;
+        }
+
+        public bool Delete(int id)
+        {
+            Playlist tobeDeleted = _playlists.FirstOrDefault(p => p.Id == id);
+
+            _playlists.Remove(tobeDeleted);
+            return true;
         }
     }
 }

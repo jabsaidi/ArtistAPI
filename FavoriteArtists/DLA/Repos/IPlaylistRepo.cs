@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface IPlaylistRepo
+    public interface IPlaylistRepo : IBaseRepo<Playlist>
     {
         List<Playlist> GetPlaylistsByName(string name);
     }

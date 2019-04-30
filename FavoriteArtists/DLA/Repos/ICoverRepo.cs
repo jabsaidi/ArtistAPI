@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface ICoverRepo
+    public interface ICoverRepo : IBaseRepo<Cover>
     {
         int GetCoverByAlbumId(int id);
         List<Cover> GetProfileCovers();

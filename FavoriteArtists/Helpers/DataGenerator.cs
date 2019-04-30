@@ -23,11 +23,11 @@ namespace FavoriteArtists.DLA.Repos
         public static List<Playlist> GeneratePlaylist()
         {
             List<Playlist> playlists = new List<Playlist>();
-            var song1 = new Song() { Id = 18, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Mamacita" };
-            var song2 = new Song() { Id = 19, AlbumId = 1, ArtistId = 1, Duration = 3.18, Name = "Uptown" };
-            var song3 = new Song() { Id = 20, AlbumId = 1, ArtistId = 1, Duration = 4.04, Name = "Stronger" };
-            var song4 = new Song() { Id = 21, AlbumId = 1, ArtistId = 1, Duration = 5.35, Name = "Atlantis" };
-            var song5 = new Song() { Id = 22, AlbumId = 1, ArtistId = 1, Duration = 3.46, Name = "Animal" };
+            var song1 = new Song() { Id = 18, AlbumId = 1, ArtistId = 1, Duration = 3.08, Name = "Mamacita", IsActive = true };
+            var song2 = new Song() { Id = 19, AlbumId = 1, ArtistId = 1, Duration = 3.18, Name = "Uptown", IsActive = true };
+            var song3 = new Song() { Id = 20, AlbumId = 1, ArtistId = 1, Duration = 4.04, Name = "Stronger", IsActive = true };
+            var song4 = new Song() { Id = 21, AlbumId = 1, ArtistId = 1, Duration = 5.35, Name = "Atlantis", IsActive = true };
+            var song5 = new Song() { Id = 22, AlbumId = 1, ArtistId = 1, Duration = 3.46, Name = "Animal", IsActive = true };
             var songsList = new List<Song>() { song1, song2, song3, song4, song5 };
             playlists.Add(new Playlist() { Id = 1, Name = "Rage", Songs = songsList });
             return playlists;

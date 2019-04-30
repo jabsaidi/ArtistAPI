@@ -1,19 +1,21 @@
-﻿using FavoriteArtists.DLA.Models;
-using FavoriteArtists.Extensions;
+﻿using System.Linq;
 using FavoriteArtists.Helpers;
+using FavoriteArtists.DLA.Models;
+using FavoriteArtists.Extensions;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class SongRepo : ISongRepo, IBaseRepo<Song>
+    public class SongRepo : ISongRepo
     {
+        private static int _startup = 0;
         private readonly ISongCoverRepo _songCoverRepo;
         private static List<Song> _songs = new List<Song>();
 
         public SongRepo(ISongCoverRepo songCoverRepo)
         {
-            if (_songs.Count == 0)
+            _startup++;
+            if (_startup == 1)
                 _songs = DataGenerator.GenerateSongs();
             _songCoverRepo = songCoverRepo;
         }
@@ -70,6 +72,8 @@ namespace FavoriteArtists.DLA.Repos
         public Song GetById(int id)
         {
             Song song = _songs.FirstOrDefault(s => s.Id == id);
+            if (song == null)
+                return null;
             song.CoverId = _songCoverRepo.GetSongCoverByAlbumId(song.AlbumId);
             return song;
         }
@@ -107,6 +111,16 @@ namespace FavoriteArtists.DLA.Repos
             if (existingSong != null)
                 return true;
             return false;
+        }
+
+        public bool Delete(int id)
+        {
+            Song tobeDeleted = _songs.FirstOrDefault(s => s.Id == id);
+            if (tobeDeleted == null)
+                return false;
+
+            _songs.Remove(tobeDeleted);
+            return true;
         }
     }
 }

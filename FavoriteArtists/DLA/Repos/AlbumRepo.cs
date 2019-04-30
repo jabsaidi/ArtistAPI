@@ -1,19 +1,23 @@
-﻿using FavoriteArtists.DLA.Models;
+﻿using System.Linq;
+using FavoriteArtists.DLA.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class AlbumRepo : IAlbumRepo, IBaseRepo<Album>
+    public class AlbumRepo : IAlbumRepo
     {
+        private static int _startup = 0;
         private IAlbumSongRepo _albumSongRepo;
         private readonly IAlbumCoverRepo _albumCoverRepo;
         private static List<Album> _albums = new List<Album>();
 
         public AlbumRepo(IAlbumCoverRepo albumCoverRepo, IAlbumSongRepo albumSongRepo)
         {
-            if (_albums.Count == 0)
+            _startup++;
+            if (_startup == 1)
+            {
                 _albums = DataGenerator.GenerateAlbum();
+            }
 
             _albumSongRepo = albumSongRepo;
             _albumCoverRepo = albumCoverRepo;
@@ -47,7 +51,9 @@ namespace FavoriteArtists.DLA.Repos
         {
             List<Album> albums = _albums.Where(a => a.Name == name).Select(album =>
             {
-                album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+                if (album.Songs.Count == 0)
+                    album.Songs = _albumSongRepo.GetSongsByAlbumId(album.Id);
+
                 album.CoverId = _albumCoverRepo.GetCoverByAlbumId(album.Id);
                 return album;
             }).ToList();
@@ -77,8 +83,12 @@ namespace FavoriteArtists.DLA.Repos
             var exists = GetById(newAlbum.Id);
             if (exists != null)
                 return null;
+
             foreach (var song in newAlbum.Songs)
+            {
+                song.Id = _albumSongRepo.GetNextId();
                 _albumSongRepo.Create(song);
+            }
 
             _albums.Add(newAlbum);
             return newAlbum;
@@ -89,6 +99,7 @@ namespace FavoriteArtists.DLA.Repos
             Album tobeUpdated = GetById(updatedAlbum.Id);
             if (tobeUpdated == null)
                 return null;
+
             foreach (var song in tobeUpdated.Songs)
                 song.IsActive = false;
 
@@ -99,6 +110,8 @@ namespace FavoriteArtists.DLA.Repos
 
             foreach (var song in tobeUpdated.Songs)
             {
+                song.IsActive = true;
+
                 if (song.Id == 0)
                     song.Id = _albumSongRepo.GetNextId();
 
@@ -107,6 +120,19 @@ namespace FavoriteArtists.DLA.Repos
             }
 
             return tobeUpdated;
+        }
+
+        public bool Delete(int id)
+        {
+            Album tobeDeleted = _albums.FirstOrDefault(a => a.Id == id);
+            if (tobeDeleted == null)
+                return false;
+
+            foreach (var song in tobeDeleted.Songs)
+                song.IsActive = false;
+
+            _albums.Remove(tobeDeleted);
+            return true;
         }
     }
 }

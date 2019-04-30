@@ -12,6 +12,6 @@ namespace FavoriteArtists.DLA.Repos
         T Update(T obj);
         List<T> GetAll();
         T GetById(int id);
-        //bool Delete(int id);
+        bool Delete(int id);
     }
 }

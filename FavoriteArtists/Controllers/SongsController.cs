@@ -68,5 +68,14 @@ namespace FavoriteArtists.Controllers
                 return BadRequest();
             return Ok(updatedSong);
         }
+
+        [HttpDelete("delete/{id}", Name = "Delete song by Id")]
+        public IActionResult Delete(int id)
+        {
+            bool deleted = _baseRepo.Delete(id);
+            if (!deleted)
+                return BadRequest();
+            return Ok();
+        }
     }
 }

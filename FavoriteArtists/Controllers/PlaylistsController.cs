@@ -66,5 +66,14 @@ namespace FavoriteArtists.Controllers
             var playlists = _playlistRepo.GetPlaylistsByName(name);
             return Ok(playlists);
         }
+
+        [HttpDelete("delete/{id}", Name = "Delete playlist by Id")]
+        public IActionResult Delete(int id)
+        {
+            bool deleted = _baseRepo.Delete(id);
+            if (!deleted)
+                return BadRequest();
+            return Ok();
+        }
     }
 }

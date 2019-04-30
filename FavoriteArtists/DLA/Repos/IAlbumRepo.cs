@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface IAlbumRepo
+    public interface IAlbumRepo : IBaseRepo<Album>
     {
-        List<Album> GetAlbumsByName(string name);
         List<Album> GetAlbumsByArtistId(int id);
+        List<Album> GetAlbumsByName(string name);
     }
 }

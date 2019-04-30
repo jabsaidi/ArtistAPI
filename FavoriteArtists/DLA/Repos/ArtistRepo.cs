@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class ArtistRepo : IArtistRepo, IBaseRepo<Artist>
+    public class ArtistRepo : IArtistRepo
     {
         private readonly IArtistAlbumRepo _artistAlbumRepo;
         private readonly IArtistCoverRepo _artistCoverRepo;

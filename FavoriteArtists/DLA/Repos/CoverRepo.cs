@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class CoverRepo : ICoverRepo, IBaseRepo<Cover>
+    public class CoverRepo : ICoverRepo
     {
+        private static int startUp = 0;
         private static List<Cover> _covers = new List<Cover>();
 
         public CoverRepo()
         {
-            if (_covers.Count == 0)
+            startUp++;
+            if(startUp == 1)
                 _covers = DataGenerator.GenerateCovers();
         }
 
@@ -80,6 +82,15 @@ namespace FavoriteArtists.DLA.Repos
             if (cover == null)
                 return 0;
             return cover.Id;
+        }
+
+        public bool Delete(int id)
+        {
+            Cover tobeDeleted = _covers.FirstOrDefault(c => c.Id == id);
+            if (tobeDeleted == null)
+                return false;
+            _covers.Remove(tobeDeleted);
+            return true;
         }
     }
 }

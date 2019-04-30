@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public interface IArtistRepo
+    public interface IArtistRepo : IBaseRepo<Artist>
     {
-        bool Delete(int id);
         List<Artist> GetGroups();
         List<Artist> GetRapers();
         Artist GetArtistByName(string name);
