@@ -12,16 +12,19 @@ namespace FavoriteArtists.Controllers
     public class ArtistsController : ControllerBase
     {
         private IArtistRepo _artistRepo;
+        private readonly IBaseRepo<Artist> _baseRepo;
 
-        public ArtistsController(IArtistRepo artistRepo)
+
+        public ArtistsController(IArtistRepo artistRepo, IBaseRepo<Artist> baseRepo)
         {
+            _baseRepo = baseRepo;
             _artistRepo = artistRepo;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Artist> artists = _artistRepo.GetAll();
+            List<Artist> artists = _baseRepo.GetAll();
             if (artists == null)
                 return NotFound();
             return Ok(artists);
@@ -31,9 +34,9 @@ namespace FavoriteArtists.Controllers
         public IActionResult Create(ArtistJsonBody body)
         {
             Artist newArtist = body.GenerateTemplate(body);
-            newArtist.Id = _artistRepo.GetNextId();
+            newArtist.Id = _baseRepo.GetNextId();
 
-            Artist artist = _artistRepo.Create(newArtist);
+            Artist artist = _baseRepo.Create(newArtist);
             if (artist == null)
                 return BadRequest();
             return Ok(artist);
@@ -42,7 +45,7 @@ namespace FavoriteArtists.Controllers
         [HttpGet("{id}", Name = "Get artist by id")]
         public IActionResult GetById(int id)
         {
-            Artist artist = _artistRepo.GetArtistById(id);
+            Artist artist = _baseRepo.GetById(id);
             if (artist == null)
                 return NotFound();
             return Ok(artist);
@@ -63,7 +66,7 @@ namespace FavoriteArtists.Controllers
             Artist toBeModified = body.GenerateTemplate(body);
             toBeModified.Id = id;
 
-            Artist modified = _artistRepo.ModifyArtist(toBeModified);
+            Artist modified = _baseRepo.Update(toBeModified);
             if (modified == null)
                 return BadRequest($"Id {id} does not exist.");
             return Ok(modified);
@@ -90,6 +93,13 @@ namespace FavoriteArtists.Controllers
             if (artist == null)
                 return NotFound();
             return Ok(artist);
+        }
+
+        [HttpGet("same/{name}", Name = "Get all artists with same name")]
+        public IActionResult GetSameNameArtists(string name)
+        {
+            var artists = _artistRepo.GetArtistsByName(name);
+            return Ok(artists);
         }
     }
 }

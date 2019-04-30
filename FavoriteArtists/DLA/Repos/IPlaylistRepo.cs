@@ -8,9 +8,6 @@ namespace FavoriteArtists.DLA.Repos
 {
     public interface IPlaylistRepo
     {
-        int GetNextId();
-        Playlist GetPlaylistById(int id);
-        List<Playlist> GetAllPlaylists();
-        Playlist Create(Playlist playlist);
+        List<Playlist> GetPlaylistsByName(string name);
     }
 }

@@ -15,16 +15,18 @@ namespace FavoriteArtists.Controllers
     public class SongsController : ControllerBase
     {
         private ISongRepo _songRepo;
+        private readonly IBaseRepo<Song> _baseRepo;
 
-        public SongsController(ISongRepo songRepo)
+        public SongsController(ISongRepo songRepo, IBaseRepo<Song> baseRepo)
         {
+            _baseRepo = baseRepo;
             _songRepo = songRepo;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var songs = _songRepo.GetAll();
+            var songs = _baseRepo.GetAll();
             return Ok(songs);
         }
 
@@ -32,9 +34,9 @@ namespace FavoriteArtists.Controllers
         public IActionResult Create(SongJsonBody body)
         {
             Song newSong = body.ConvertToSong(body);
-            newSong.Id = _songRepo.GetNextId();
+            newSong.Id = _baseRepo.GetNextId();
 
-            Song createdSong = _songRepo.Create(newSong);
+            Song createdSong = _baseRepo.Create(newSong);
             if (createdSong == null)
                 return BadRequest();
             return Ok(createdSong);
@@ -43,7 +45,7 @@ namespace FavoriteArtists.Controllers
         [HttpGet("{id}", Name = "Get song by id")]
         public IActionResult GetById(int id)
         {
-            Song song = _songRepo.GetById(id);
+            Song song = _baseRepo.GetById(id);
             if (song == null)
                 return NotFound();
             return Ok(song);
@@ -60,9 +62,8 @@ namespace FavoriteArtists.Controllers
         public IActionResult UpdateSongById(int id, SongJsonBody body)
         {
             Song songToUpdate = body.ConvertToSong(body);
-            songToUpdate.Id = id;
 
-            Song updatedSong = _songRepo.UpdateSong(songToUpdate);
+            Song updatedSong = _baseRepo.Update(songToUpdate);
             if (updatedSong == null)
                 return BadRequest();
             return Ok(updatedSong);

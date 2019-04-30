@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class CoverRepo : ICoverRepo
+    public class CoverRepo : ICoverRepo, IBaseRepo<Cover>
     {
         private static List<Cover> _covers = new List<Cover>();
 
@@ -77,6 +77,8 @@ namespace FavoriteArtists.DLA.Repos
         public int GetCoverByPlaylistId(int id)
         {
             Cover cover = _covers.FirstOrDefault(c => c.PlayListId == id);
+            if (cover == null)
+                return 0;
             return cover.Id;
         }
     }

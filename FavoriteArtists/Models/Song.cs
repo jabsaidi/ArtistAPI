@@ -7,5 +7,6 @@
         public int AlbumId { get; set; }
         public double Duration { get; set; }
         public int CoverId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using FavoriteArtists.DLA.Repos;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using FavoriteArtists.DLA.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using FavoriteArtists.DLA.Repos.FileRepos;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FavoriteArtists
@@ -32,21 +26,25 @@ namespace FavoriteArtists
             services.AddScoped(typeof(IAlbumRepo), typeof(AlbumRepo));
             services.AddScoped(typeof(ICoverRepo), typeof(CoverRepo));
             services.AddScoped(typeof(IArtistRepo), typeof(ArtistRepo));
+            services.AddScoped(typeof(IBaseRepo<Song>), typeof(SongRepo));
+            services.AddScoped(typeof(IBaseRepo<Cover>), typeof(CoverRepo));
             services.AddScoped(typeof(IPlaylistRepo), typeof(PlaylistRepo));
+            services.AddScoped(typeof(IBaseRepo<Album>), typeof(AlbumRepo));
             services.AddScoped(typeof(IAlbumSongRepo), typeof(AlbumSongRepo));
             services.AddScoped(typeof(ISongCoverRepo), typeof(SongCoverRepo));
+            services.AddScoped(typeof(IBaseRepo<Artist>), typeof(ArtistRepo));
             services.AddScoped(typeof(IAlbumCoverRepo), typeof(AlbumCoverRepo));
-            services.AddScoped(typeof(IArtistCoverRepo), typeof(ArtistCoverRepo));
             services.AddScoped(typeof(IArtistAlbumRepo), typeof(ArtistAlbumRepo));
+            services.AddScoped(typeof(IBaseRepo<Playlist>), typeof(PlaylistRepo));
+            services.AddScoped(typeof(IArtistCoverRepo), typeof(ArtistCoverRepo));
+            services.AddScoped(typeof(IPlaylistCoverRepo), typeof(PlaylistCoverRepo));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             app.UseMvc();
         }

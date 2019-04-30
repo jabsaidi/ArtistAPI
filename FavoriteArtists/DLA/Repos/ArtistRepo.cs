@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class ArtistRepo : IArtistRepo
+    public class ArtistRepo : IArtistRepo, IBaseRepo<Artist>
     {
         private readonly IArtistAlbumRepo _artistAlbumRepo;
         private readonly IArtistCoverRepo _artistCoverRepo;
@@ -46,9 +46,9 @@ namespace FavoriteArtists.DLA.Repos
             return _db;
         }
 
-        public Artist GetArtistById(int id)
+        public Artist GetById(int id)
         {
-            var artist = _db.SingleOrDefault(a => a.Id == id);
+            var artist = _db.FirstOrDefault(a => a.Id == id);
             artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
             artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
             return artist;
@@ -88,9 +88,9 @@ namespace FavoriteArtists.DLA.Repos
             return rappers;
         }
 
-        public Artist ModifyArtist(Artist modifiedArtist)
+        public Artist Update(Artist modifiedArtist)
         {
-            var toBeModified = GetArtistById(modifiedArtist.Id);
+            var toBeModified = GetById(modifiedArtist.Id);
             if (toBeModified == null)
                 return null;
 
@@ -105,6 +105,20 @@ namespace FavoriteArtists.DLA.Repos
         public int GetNextId()
         {
             return _db.Count + 1;
+        }
+
+        public List<Artist> GetArtistsByName(string name)
+        {
+            name = name.FirstCharToUpper();
+
+            List<Artist> artists = _db.Where(a => a.Name == name).Select(artist =>
+            {
+                artist.Albums = _artistAlbumRepo.GetAlbumsByArtistId(artist.Id);
+                artist.CoverId = _artistCoverRepo.GetProfileCoverByArtistId(artist.Id);
+                return artist;
+            }).ToList();
+
+            return artists;
         }
     }
 }

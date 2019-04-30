@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace FavoriteArtists.DLA.Repos
 {
-    public class SongRepo : ISongRepo
+    public class SongRepo : ISongRepo, IBaseRepo<Song>
     {
         private readonly ISongCoverRepo _songCoverRepo;
         private static List<Song> _songs = new List<Song>();
@@ -22,6 +22,7 @@ namespace FavoriteArtists.DLA.Repos
         {
             if (newSong.Duration != 0 && Validations.NotNull(newSong.Name) && newSong.ArtistId != 0)
             {
+                newSong.Id = GetNextId();
                 _songs.Add(newSong);
                 return newSong;
             }
@@ -53,7 +54,7 @@ namespace FavoriteArtists.DLA.Repos
 
         public List<Song> GetSongsByAlbumId(int id)
         {
-            List<Song> songs = _songs.Where(s => s.AlbumId == id).Select(song =>
+            List<Song> songs = _songs.Where(s => s.AlbumId == id && s.IsActive == true).Select(song =>
             {
                 song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
                 return song;
@@ -76,7 +77,6 @@ namespace FavoriteArtists.DLA.Repos
         public List<Song> GetSongsByName(string name)
         {
             name = name.FirstCharToUpper();
-
             var sameNameSongs = _songs.Where(s => s.Name == name).Select(song =>
             {
                 song.CoverId = GetSongCoverByAlbumId(song.AlbumId);
@@ -85,12 +85,13 @@ namespace FavoriteArtists.DLA.Repos
             return sameNameSongs;
         }
 
-        public Song UpdateSong(Song song)
+        public Song Update(Song song)
         {
             Song originalSong = _songs.FirstOrDefault(s => s.Id == song.Id);
-            if (song == null)
+            if (originalSong == null)
                 return null;
 
+            originalSong.IsActive = true;
             originalSong.Name = song.Name;
             originalSong.AlbumId = song.AlbumId;
             originalSong.CoverId = song.CoverId;
@@ -98,6 +99,14 @@ namespace FavoriteArtists.DLA.Repos
             originalSong.Duration = song.Duration;
 
             return originalSong;
+        }
+
+        public bool SongExists(Song song)
+        {
+            Song existingSong = _songs.FirstOrDefault(s => s.Id == song.Id);
+            if (existingSong != null)
+                return true;
+            return false;
         }
     }
 }
